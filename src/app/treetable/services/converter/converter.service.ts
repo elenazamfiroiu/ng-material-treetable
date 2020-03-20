@@ -31,8 +31,8 @@ export class ConverterService {
     const treeClone = cloneDeep(tree) as TreeTableNode<T>;
     this.treeService.traverse(treeClone, (node: TreeTableNode<T>) => {
       node.depth = this.treeService.getNodeDepth(treeClone, node);
-      node.isExpanded = true;
-      node.isVisible = true;
+      node.isExpanded = false;
+      node.isVisible = node.depth === 0;
     });
     return treeClone;
   }
