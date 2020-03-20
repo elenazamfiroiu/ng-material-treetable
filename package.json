@@ -1,5 +1,5 @@
 {
-  "name": "ng-material-treetable",
+  "name": "@extended/ng-material-treetable",
   "description": "A customisable Angular Material TreeTable component",
   "version": "0.5.5",
   "scripts": {
@@ -12,10 +12,7 @@
     "packagr": "ng-packagr -p ng-package.json",
     "postinstall": "npm rebuild node-sass"
   },
-  "author": {
-    "name": "Marco Levrero",
-    "url": "https://github.com/mlrv"
-  },
+  "author": "Marco Levrero (https://github.com/mlrv)",
   "license": "MIT",
   "private": false,
   "dependencies": {
@@ -80,5 +77,14 @@
     "tree",
     "treetable",
     "tree-table"
-  ]
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasea-popa/ng-material-treetable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vasea-popa/ng-material-treetable/issues"
+  },
+  "homepage": "https://github.com/vasea-popa/ng-material-treetable#readme"
 }
