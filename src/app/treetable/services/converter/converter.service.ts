@@ -26,13 +26,14 @@ export class ConverterService {
   /**
    * Clone a SearchableNode<T> object and convert it to a TreeTableNode<T>
    * @param tree the node to be converted
+   * @param isCollapsible collapse all children to depth 0 or not
    */
-  toTreeTableTree<T>(tree: SearchableNode<T>): TreeTableNode<T> {
+  toTreeTableTree<T>(tree: SearchableNode<T>, isCollapsible: boolean): TreeTableNode<T> {
     const treeClone = cloneDeep(tree) as TreeTableNode<T>;
     this.treeService.traverse(treeClone, (node: TreeTableNode<T>) => {
       node.depth = this.treeService.getNodeDepth(treeClone, node);
-      node.isExpanded = false;
-      node.isVisible = node.depth === 0;
+      node.isExpanded = !isCollapsible;
+      node.isVisible = isCollapsible ? node.depth === 0 : true;
     });
     return treeClone;
   }

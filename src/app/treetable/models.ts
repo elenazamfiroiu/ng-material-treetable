@@ -25,4 +25,5 @@ export interface Options<T> {
   highlightRowOnHover?: boolean;
   customColumnOrder?: Array<keyof T> & string[];
 	elevation?: number;
+  defaultCollapsible?: boolean;
 }
