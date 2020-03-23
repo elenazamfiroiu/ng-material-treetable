@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, ElementRef } from '@angular/core';
-import {Node, TreeTableNode, Options, SearchableNode, TreeTableCustomHeader, TreeTableAction, EmitedActionTree} from '../models';
+import {Node, TreeTableNode, Options, SearchableNode, TreeTableCustomHeader, TreeTableAction, EmittedActionTree} from '../models';
 import { TreeService } from '../services/tree/tree.service';
 import { MatTableDataSource } from '@angular/material';
 import { ValidatorService } from '../services/validator/validator.service';
@@ -20,7 +20,7 @@ export class TreetableComponent<T> implements OnInit {
   @Input() actions: TreeTableAction[];
   @Input() options: Options<T> = {};
   @Output() nodeClicked: Subject<TreeTableNode<T>> = new Subject();
-  @Output() actionClicked: Subject<EmitedActionTree<T>> = new Subject();
+  @Output() actionClicked: Subject<EmittedActionTree<T>> = new Subject();
   private searchableTree: SearchableNode<T>[];
   private treeTable: TreeTableNode<T>[];
   displayedColumns: string[];
@@ -98,7 +98,7 @@ export class TreetableComponent<T> implements OnInit {
     return defaults(this.options, defaultOpts);
   }
 
-  onActionClicked(action: EmitedActionTree<T>) {
+  onActionClicked(action: EmittedActionTree<T>) {
     this.actionClicked.next(action);
   }
 

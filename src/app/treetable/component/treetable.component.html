@@ -28,7 +28,7 @@
       <button *ngFor="let action of actions"
               (click)="onActionClicked({actionName: action.actionName, node: element})"
               mat-icon-button
-              [attr.color]="action.color">
+              [color]="action.color">
         <mat-icon [title]="action.title">{{action.iconName}}</mat-icon>
       </button>
     </td>

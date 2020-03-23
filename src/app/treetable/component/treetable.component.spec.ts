@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { mockSearchableTree } from '../mocks/mockSearchableTree';
 import * as _ from 'lodash-es';
+import {MatButtonModule} from '@angular/material';
 
 describe('TreetableComponent', () => {
   let component: TreetableComponent<any>;
@@ -16,7 +17,8 @@ describe('TreetableComponent', () => {
       ],
       imports: [
         MatTableModule,
-        MatIconModule
+        MatIconModule,
+        MatButtonModule
       ]
     })
     .compileComponents();

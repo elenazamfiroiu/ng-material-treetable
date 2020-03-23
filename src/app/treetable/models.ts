@@ -42,7 +42,7 @@ export interface TreeTableAction {
   color?: ThemePalette;
 }
 
-export interface EmitedActionTree<T> {
+export interface EmittedActionTree<T> {
   actionName: string;
   node: TreeTableNode<T>;
 }
