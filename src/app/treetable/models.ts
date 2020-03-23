@@ -27,3 +27,8 @@ export interface Options<T> {
 	elevation?: number;
   defaultCollapsible?: boolean;
 }
+
+export interface TreeTableCustomHeader {
+  label: string;
+  property: string;
+}
