@@ -1,3 +1,5 @@
+import {ThemePalette} from '@angular/material/core/typings/common-behaviors/color';
+
 export interface Node<T> {
   value: T;
   children: Node<T>[];
@@ -31,4 +33,16 @@ export interface Options<T> {
 export interface TreeTableCustomHeader {
   label: string;
   property: string;
+}
+
+export interface TreeTableAction {
+  actionName: string;
+  title: string;
+  iconName: string;
+  color?: ThemePalette;
+}
+
+export interface EmitedActionTree<T> {
+  actionName: string;
+  node: TreeTableNode<T>;
 }

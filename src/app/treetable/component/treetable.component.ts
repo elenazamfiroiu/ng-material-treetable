@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, ElementRef } from '@angular/core';
-import {Node, TreeTableNode, Options, SearchableNode, TreeTableCustomHeader} from '../models';
+import {Node, TreeTableNode, Options, SearchableNode, TreeTableCustomHeader, TreeTableAction, EmitedActionTree} from '../models';
 import { TreeService } from '../services/tree/tree.service';
 import { MatTableDataSource } from '@angular/material';
 import { ValidatorService } from '../services/validator/validator.service';
@@ -17,11 +17,14 @@ import { Subject } from 'rxjs';
 export class TreetableComponent<T> implements OnInit {
   @Input() @Required tree: Node<T> | Node<T>[];
   @Input() customHeader: TreeTableCustomHeader[];
+  @Input() actions: TreeTableAction[];
   @Input() options: Options<T> = {};
   @Output() nodeClicked: Subject<TreeTableNode<T>> = new Subject();
+  @Output() actionClicked: Subject<EmitedActionTree<T>> = new Subject();
   private searchableTree: SearchableNode<T>[];
   private treeTable: TreeTableNode<T>[];
   displayedColumns: string[];
+  extendedDisplayedColumns: string[];
   dataSource: MatTableDataSource<TreeTableNode<T>>;
 
   constructor(
@@ -51,6 +54,7 @@ export class TreetableComponent<T> implements OnInit {
       ? this.options.customColumnOrder
       : this.extractNodeProps(this.tree[0]);
     this.searchableTree = this.tree.map(t => this.converterService.toSearchableTree(t));
+    this.extendedDisplayedColumns = this.actions ? [...this.displayedColumns, 'actions'] : this.displayedColumns;
     const treeTableTree = this.searchableTree.map(st => this.converterService.toTreeTableTree(st, this.options.defaultCollapsible));
     this.treeTable = flatMap(treeTableTree, this.treeService.flatten);
     this.dataSource = this.generateDataSource();
@@ -92,6 +96,10 @@ export class TreetableComponent<T> implements OnInit {
   // Overrides default options with those specified by the user
   parseOptions(defaultOpts: Options<T>): Options<T> {
     return defaults(this.options, defaultOpts);
+  }
+
+  onActionClicked(action: EmitedActionTree<T>) {
+    this.actionClicked.next(action);
   }
 
 }
