@@ -12,7 +12,7 @@
             <mat-icon [ngStyle]="{'visibility': element.children.length ? 'visible' : 'hidden'}" (click)="onNodeClick(element)">
               {{element.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}
             </mat-icon>
-            <div>{{element.value[column]}}</div>
+            <div (click)="onTreeLabelClick(element)" class="tree-label">{{element.value[column]}}</div>
           </div>
         </div>
         <div *ngIf="!isFirst">

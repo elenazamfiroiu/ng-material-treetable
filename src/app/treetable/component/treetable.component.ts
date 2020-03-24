@@ -21,6 +21,7 @@ export class TreetableComponent<T> implements OnInit {
   @Input() options: Options<T> = {};
   @Output() nodeClicked: Subject<TreeTableNode<T>> = new Subject();
   @Output() actionClicked: Subject<EmittedActionTree<T>> = new Subject();
+  @Output() treeLabelClicked: Subject<TreeTableNode<T>> = new Subject();
   private searchableTree: SearchableNode<T>[];
   private treeTable: TreeTableNode<T>[];
   displayedColumns: string[];
@@ -100,6 +101,10 @@ export class TreetableComponent<T> implements OnInit {
 
   onActionClicked(action: EmittedActionTree<T>) {
     this.actionClicked.next(action);
+  }
+
+  onTreeLabelClick(clickedNode: TreeTableNode<T>) {
+    this.treeLabelClicked.next(clickedNode);
   }
 
 }
