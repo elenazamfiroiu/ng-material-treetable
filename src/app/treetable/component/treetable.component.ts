@@ -21,6 +21,7 @@ export class TreetableComponent<T> implements OnInit {
   @Input() options: Options<T> = {};
   @Output() nodeClicked: Subject<TreeTableNode<T>> = new Subject();
   @Output() actionClicked: Subject<EmittedActionTree<T>> = new Subject();
+  @Output() treeLabelClicked: Subject<TreeTableNode<T>> = new Subject();
   private searchableTree: SearchableNode<T>[];
   private treeTable: TreeTableNode<T>[];
   displayedColumns: string[];
@@ -80,6 +81,15 @@ export class TreetableComponent<T> implements OnInit {
 		return `mat-elevation-z${this.options.elevation}`;
 	}
 
+	checkVisibilityForAction(action: TreeTableAction, node: TreeTableNode<T>): boolean {
+    // If the action has no hidden property, show the action.
+    if (!action.hasOwnProperty('hideForChild') && !action.hasOwnProperty('hideForGroups')) {
+      return true;
+    }
+    // Show the action based on the hide property.
+    return (action.hideForChild && node.children.length > 0) || (action.hideForGroups && node.children.length === 0);
+  }
+
   onNodeClick(clickedNode: TreeTableNode<T>): void {
     clickedNode.isExpanded = !clickedNode.isExpanded;
     this.treeTable.forEach(el => {
@@ -100,6 +110,10 @@ export class TreetableComponent<T> implements OnInit {
 
   onActionClicked(action: EmittedActionTree<T>) {
     this.actionClicked.next(action);
+  }
+
+  onTreeLabelClick(clickedNode: TreeTableNode<T>) {
+    this.treeLabelClicked.next(clickedNode);
   }
 
 }
