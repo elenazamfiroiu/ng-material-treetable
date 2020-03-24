@@ -23,14 +23,16 @@
   </div>
 
   <ng-container *ngIf="actions && actions.length > 0" matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let element" class="vertical-separator">
-      <button *ngFor="let action of actions"
-              (click)="onActionClicked({actionName: action.actionName, node: element})"
-              mat-icon-button
-              [color]="action.color">
-        <mat-icon [title]="action.title">{{action.iconName}}</mat-icon>
-      </button>
+      <ng-container *ngFor="let action of actions">
+        <button *ngIf="checkVisibilityForAction(action, element)"
+          (click)="onActionClicked({actionName: action.actionName, node: element})"
+          mat-icon-button
+          [color]="action.color">
+          <mat-icon [title]="action.title">{{action.iconName}}</mat-icon>
+        </button>
+      </ng-container>
     </td>
   </ng-container>
 

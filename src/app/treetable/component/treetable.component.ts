@@ -81,6 +81,15 @@ export class TreetableComponent<T> implements OnInit {
 		return `mat-elevation-z${this.options.elevation}`;
 	}
 
+	checkVisibilityForAction(action: TreeTableAction, node: TreeTableNode<T>): boolean {
+    // If the action has no hidden property, show the action.
+    if (!action.hasOwnProperty('hideForChild') && !action.hasOwnProperty('hideForGroups')) {
+      return true;
+    }
+    // Show the action based on the hide property.
+    return (action.hideForChild && node.children.length > 0) || (action.hideForGroups && node.children.length === 0);
+  }
+
   onNodeClick(clickedNode: TreeTableNode<T>): void {
     clickedNode.isExpanded = !clickedNode.isExpanded;
     this.treeTable.forEach(el => {

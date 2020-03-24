@@ -40,6 +40,8 @@ export interface TreeTableAction {
   title: string;
   iconName: string;
   color?: ThemePalette;
+  hideForGroups?: boolean;
+  hideForChild?: boolean;
 }
 
 export interface EmittedActionTree<T> {
