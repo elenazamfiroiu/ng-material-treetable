@@ -4,7 +4,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { TreetableComponent } from './component/treetable.component';
 import {MatButtonModule} from '@angular/material';
-import {TreeService} from './services/tree/tree.service';
 export { Node, Options} from './models';
 export {TreeService} from './services/tree/tree.service';
 
@@ -20,9 +19,6 @@ export {TreeService} from './services/tree/tree.service';
   ],
   exports: [
     TreetableComponent
-  ],
-  providers: [
-    TreeService
   ]
 })
 export class TreetableModule { }

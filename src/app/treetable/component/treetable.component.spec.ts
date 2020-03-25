@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { mockSearchableTree } from '../mocks/mockSearchableTree';
 import * as _ from 'lodash-es';
 import {MatButtonModule} from '@angular/material';
-import {TreeService} from '../services/tree/tree.service';
 
 describe('TreetableComponent', () => {
   let component: TreetableComponent<any>;
@@ -20,8 +19,7 @@ describe('TreetableComponent', () => {
         MatTableModule,
         MatIconModule,
         MatButtonModule
-      ],
-      providers: [TreeService]
+      ]
     })
     .compileComponents();
   }));
