@@ -7,9 +7,7 @@ import { some, none } from 'fp-ts/lib/Option';
 import { SearchableNode, NodeInTree } from '../../models';
 
 describe('TreeService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    providers: [TreeService]
-  }));
+  beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
     const service: TreeService = TestBed.get(TreeService);

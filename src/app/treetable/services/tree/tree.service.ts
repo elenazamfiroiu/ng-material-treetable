@@ -3,7 +3,9 @@ import { Node, SearchableNode, NodeInTree } from '../../models';
 import { cloneDeep } from 'lodash-es';
 import { Option, some, none } from 'fp-ts/lib/Option';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TreeService {
 
   /**
