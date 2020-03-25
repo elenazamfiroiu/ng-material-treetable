@@ -6,6 +6,7 @@ import { TreetableComponent } from './component/treetable.component';
 import {MatButtonModule} from '@angular/material';
 import {TreeService} from './services/tree/tree.service';
 export { Node, Options} from './models';
+export {TreeService} from './services/tree/tree.service';
 
 @NgModule({
   declarations: [
