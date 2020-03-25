@@ -5,9 +5,12 @@ import { mockSearchableTree } from '../../mocks/mockSearchableTree';
 import { mockTree } from '../../mocks/mockTree';
 import { mockTreeTableTree } from '../../mocks/mockTreeTableTree';
 import * as _ from 'lodash-es';
+import {TreeService} from '../tree/tree.service';
 
 describe('ConverterService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({
+    providers: [TreeService]
+  }));
 
   it('should be created', () => {
     const service: ConverterService = TestBed.get(ConverterService);
