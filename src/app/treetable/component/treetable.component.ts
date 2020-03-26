@@ -15,6 +15,9 @@ import { Subject } from 'rxjs';
   styleUrls: ['./treetable.component.scss']
 })
 export class TreetableComponent<T> implements OnInit {
+  get treeTable(): TreeTableNode<T>[] {
+    return this._treeTable;
+  }
   @Input() @Required tree: Node<T> | Node<T>[];
   @Input() customHeader: TreeTableCustomHeader[];
   @Input() actions: TreeTableAction[];
@@ -23,7 +26,7 @@ export class TreetableComponent<T> implements OnInit {
   @Output() actionClicked: Subject<EmittedActionTree<T>> = new Subject();
   @Output() treeLabelClicked: Subject<TreeTableNode<T>> = new Subject();
   private searchableTree: SearchableNode<T>[];
-  private treeTable: TreeTableNode<T>[];
+  private _treeTable: TreeTableNode<T>[];
   displayedColumns: string[];
   extendedDisplayedColumns: string[];
   dataSource: MatTableDataSource<TreeTableNode<T>>;
@@ -57,7 +60,7 @@ export class TreetableComponent<T> implements OnInit {
     this.searchableTree = this.tree.map(t => this.converterService.toSearchableTree(t));
     this.extendedDisplayedColumns = this.actions ? [...this.displayedColumns, 'actions'] : this.displayedColumns;
     const treeTableTree = this.searchableTree.map(st => this.converterService.toTreeTableTree(st, this.options.defaultCollapsible));
-    this.treeTable = flatMap(treeTableTree, this.treeService.flatten);
+    this._treeTable = flatMap(treeTableTree, this.treeService.flatten);
     this.dataSource = this.generateDataSource();
   }
 
@@ -70,7 +73,7 @@ export class TreetableComponent<T> implements OnInit {
   }
 
   generateDataSource(): MatTableDataSource<TreeTableNode<T>> {
-    return new MatTableDataSource(this.treeTable.filter(x => x.isVisible));
+    return new MatTableDataSource(this._treeTable.filter(x => x.isVisible));
   }
 
   formatIndentation(node: TreeTableNode<T>, step: number = 5): string {
@@ -92,11 +95,11 @@ export class TreetableComponent<T> implements OnInit {
 
   onNodeClick(clickedNode: TreeTableNode<T>): void {
     clickedNode.isExpanded = !clickedNode.isExpanded;
-    this.treeTable.forEach(el => {
+    this._treeTable.forEach(el => {
       el.isVisible = this.searchableTree.every(st => {
         return this.treeService.searchById(st, el.id).
           fold([], n => n.pathToRoot)
-          .every(p => this.treeTable.find(x => x.id === p.id).isExpanded);
+          .every(p => this._treeTable.find(x => x.id === p.id).isExpanded);
       });
     });
     this.dataSource = this.generateDataSource();
