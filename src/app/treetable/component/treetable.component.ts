@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, ElementRef } from '@angular/core';
+import {Component, OnInit, Input, Output, ElementRef, OnChanges, SimpleChanges} from '@angular/core';
 import {Node, TreeTableNode, Options, SearchableNode, TreeTableCustomHeader, TreeTableAction, EmittedActionTree} from '../models';
 import { TreeService } from '../services/tree/tree.service';
 import { MatTableDataSource } from '@angular/material';
@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
   templateUrl: './treetable.component.html',
   styleUrls: ['./treetable.component.scss']
 })
-export class TreetableComponent<T> implements OnInit {
+export class TreetableComponent<T> implements OnInit, OnChanges {
   get treeTable(): TreeTableNode<T>[] {
     return this._treeTable;
   }
@@ -57,8 +57,18 @@ export class TreetableComponent<T> implements OnInit {
       : this.options.customColumnOrder
       ? this.options.customColumnOrder
       : this.extractNodeProps(this.tree[0]);
-    this.searchableTree = this.tree.map(t => this.converterService.toSearchableTree(t));
     this.extendedDisplayedColumns = this.actions ? [...this.displayedColumns, 'actions'] : this.displayedColumns;
+    this.createDataSource(this.tree);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.tree && changes.tree.currentValue && !changes.tree.firstChange) {
+      this.createDataSource(changes.tree.currentValue);
+    }
+  }
+
+  createDataSource(tree: Node<T>[]) {
+    this.searchableTree = tree.map(t => this.converterService.toSearchableTree(t));
     const treeTableTree = this.searchableTree.map(st => this.converterService.toTreeTableTree(st, this.options.defaultCollapsible));
     this._treeTable = flatMap(treeTableTree, this.treeService.flatten);
     this.dataSource = this.generateDataSource();
