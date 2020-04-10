@@ -53,7 +53,7 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
       );
     }
     this.displayedColumns = this.customHeader
-      ? this.customHeader.map(c => c.property)
+      ? this.customHeader.map(c => c.keyValue)
       : this.options.customColumnOrder
       ? this.options.customColumnOrder
       : this.extractNodeProps(this.tree[0]);
@@ -75,7 +75,7 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
   }
 
   extractColumnLabel(prop: string): string {
-    return this.customHeader ? this.customHeader.find(c => c.property === prop).label : '';
+    return this.customHeader ? this.customHeader.find(c => c.keyValue === prop).label : '';
   }
 
   extractNodeProps(tree: Node<T> & { value: { [k: string]: any } }): string[] {

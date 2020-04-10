@@ -32,7 +32,7 @@ export interface Options<T> {
 
 export interface TreeTableCustomHeader {
   label: string;
-  property: string;
+  keyValue: string;
 }
 
 export interface TreeTableAction {
