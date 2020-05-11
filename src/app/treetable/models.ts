@@ -33,6 +33,7 @@ export interface Options<T> {
 export interface TreeTableCustomHeader {
   label: string;
   keyValue: string;
+  float?: boolean;
 }
 
 export interface TreeTableAction {

@@ -16,7 +16,8 @@
           </div>
         </div>
         <div *ngIf="!isFirst">
-          {{element.value[column]}}
+          <ng-container *ngIf="!isFloatColumn(column)">{{element.value[column]}}</ng-container>
+          <ng-container *ngIf="isFloatColumn(column)">{{element.value[column] | number: '1.1-1'}}</ng-container>
         </div>
       </td>
     </ng-container>
