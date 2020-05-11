@@ -78,6 +78,18 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
     return this.customHeader ? this.customHeader.find(c => c.keyValue === prop).label : '';
   }
 
+  isFloatColumn(prop: string): boolean {
+    if (!this.customHeader) {
+      return false;
+    }
+    const column = this.customHeader.find(c => c.keyValue === prop);
+    if ('float' in column) {
+      return column.float;
+    } else {
+      return false;
+    }
+  }
+
   extractNodeProps(tree: Node<T> & { value: { [k: string]: any } }): string[] {
     return Object.keys(tree.value).filter(x => typeof tree.value[x] !== 'object');
   }
