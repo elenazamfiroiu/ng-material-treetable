@@ -4,5 +4,5 @@ export const defaultOptions: Options<any> = {
   verticalSeparator: true,
 	highlightRowOnHover: true,
 	elevation: 5,
-  defaultCollapsible: false
+  defaultExpanded: true
 };

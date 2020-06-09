@@ -30,6 +30,7 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
   displayedColumns: string[];
   extendedDisplayedColumns: string[];
   dataSource: MatTableDataSource<TreeTableNode<T>>;
+  expandedNodes: Set<string> = new Set();
 
   constructor(
     private treeService: TreeService,
@@ -69,8 +70,10 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
 
   createDataSource(tree: Node<T>[]) {
     this.searchableTree = tree.map(t => this.converterService.toSearchableTree(t));
-    const treeTableTree = this.searchableTree.map(st => this.converterService.toTreeTableTree(st, this.options.defaultCollapsible));
+    const treeTableTree = this.searchableTree.map(st =>
+      this.converterService.toTreeTableTree(st, this.options.defaultExpanded, this.expandedNodes));
     this._treeTable = flatMap(treeTableTree, this.treeService.flatten);
+    this.showExpandedChildren();
     this.dataSource = this.generateDataSource();
   }
 
@@ -116,14 +119,13 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
   }
 
   onNodeClick(clickedNode: TreeTableNode<T>): void {
+    if (!clickedNode.isExpanded) {
+      this.expandedNodes.add(clickedNode.id);
+    } else {
+      this.expandedNodes.delete(clickedNode.id);
+    }
     clickedNode.isExpanded = !clickedNode.isExpanded;
-    this._treeTable.forEach(el => {
-      el.isVisible = this.searchableTree.every(st => {
-        return this.treeService.searchById(st, el.id).
-          fold([], n => n.pathToRoot)
-          .every(p => this._treeTable.find(x => x.id === p.id).isExpanded);
-      });
-    });
+    this.showExpandedChildren();
     this.dataSource = this.generateDataSource();
     this.nodeClicked.next(clickedNode);
   }
@@ -139,6 +141,16 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
 
   onTreeLabelClick(clickedNode: TreeTableNode<T>) {
     this.treeLabelClicked.next(clickedNode);
+  }
+
+  private showExpandedChildren() {
+    this._treeTable.forEach(el => {
+      el.isVisible = this.searchableTree.every(st => {
+        return this.treeService.searchById(st, el.id).
+        fold([], n => n.pathToRoot)
+          .every(p => this._treeTable.find(x => x.id === p.id).isExpanded);
+      });
+    });
   }
 
 }
