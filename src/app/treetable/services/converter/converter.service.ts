@@ -15,10 +15,10 @@ export class ConverterService {
    * Clone a Node<T> object and convert it to a SearchableNode<T>
    * @param tree the node to be converted
    */
-  toSearchableTree<T extends {id?: string}>(tree: Node<T>): SearchableNode<T> {
+  toSearchableTree<T extends { id?: string }>(tree: Node<any>): SearchableNode<T> {
     const treeClone = cloneDeep(tree) as SearchableNode<T>;
     this.treeService.traverse(treeClone, (node: SearchableNode<T>) => {
-      node.id = node.value.hasOwnProperty('id') ? node.value.id : node.id ? node.id : uuidv4();
+      node.id =  'id' in node.value ? node.value.id : node.id ? node.id : uuidv4();
     });
     return treeClone;
   }
