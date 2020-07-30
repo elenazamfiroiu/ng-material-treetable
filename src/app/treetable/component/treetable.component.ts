@@ -1,13 +1,13 @@
 import {Component, OnInit, Input, Output, ElementRef, OnChanges, SimpleChanges} from '@angular/core';
 import {Node, TreeTableNode, Options, SearchableNode, TreeTableCustomHeader, TreeTableAction, EmittedActionTree} from '../models';
 import { TreeService } from '../services/tree/tree.service';
-import { MatTableDataSource } from '@angular/material';
 import { ValidatorService } from '../services/validator/validator.service';
 import { ConverterService } from '../services/converter/converter.service';
 import { defaultOptions } from '../default.options';
 import { flatMap, defaults } from 'lodash-es';
 import { Required } from '../decorators/required.decorator';
 import { Subject } from 'rxjs';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'ng-treetable, treetable', // 'ng-treetable' is currently being deprecated
