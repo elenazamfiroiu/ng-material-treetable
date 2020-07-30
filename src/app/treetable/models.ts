@@ -1,4 +1,4 @@
-import {ThemePalette} from '@angular/material/core/typings/common-behaviors/color';
+export declare type ThemePaletteCustom = 'primary' | 'accent' | 'warn' | undefined;
 
 export interface Node<T> {
   value: T;
@@ -40,7 +40,7 @@ export interface TreeTableAction {
   actionName: string;
   title: string;
   iconName: string;
-  color?: ThemePalette;
+  color?: ThemePaletteCustom;
   hideForGroups?: boolean;
   hideForChild?: boolean;
 }
