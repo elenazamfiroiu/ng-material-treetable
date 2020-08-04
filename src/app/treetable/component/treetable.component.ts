@@ -18,7 +18,7 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
   get treeTable(): TreeTableNode<T>[] {
     return this._treeTable;
   }
-  @Input() @Required tree: Node<T> | Node<T>[];
+  @Input() tree: Node<T> | Node<T>[];
   @Input() customHeader: TreeTableCustomHeader[];
   @Input() actions: TreeTableAction[];
   @Input() options: Options<T> = {};
