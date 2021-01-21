@@ -110,12 +110,7 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
 	}
 
 	checkVisibilityForAction(action: TreeTableAction, node: TreeTableNode<T>): boolean {
-    // If the action has no hidden property, show the action.
-    if (!action.hasOwnProperty('hideForChild') && !action.hasOwnProperty('hideForGroups')) {
-      return true;
-    }
-    // Show the action based on the hide property.
-    return (action.hideForChild && node.children.length > 0) || (action.hideForGroups && node.children.length === 0);
+    return action.actionName in node.value && (node.value as any)[action.actionName];
   }
 
   onNodeClick(clickedNode: TreeTableNode<T>): void {
