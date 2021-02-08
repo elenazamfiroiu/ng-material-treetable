@@ -1,3 +1,5 @@
+import {TemplateRef} from '@angular/core';
+
 export declare type ThemePaletteCustom = 'primary' | 'accent' | 'warn' | undefined;
 
 export interface Node<T> {
@@ -34,6 +36,7 @@ export interface TreeTableCustomHeader {
   label: string;
   keyValue: string;
   float?: boolean;
+  cellTemplate?: TemplateRef<any>;
 }
 
 export interface TreeTableAction {
