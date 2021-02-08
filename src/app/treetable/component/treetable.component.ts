@@ -5,7 +5,6 @@ import { ValidatorService } from '../services/validator/validator.service';
 import { ConverterService } from '../services/converter/converter.service';
 import { defaultOptions } from '../default.options';
 import { flatMap, defaults } from 'lodash-es';
-import { Required } from '../decorators/required.decorator';
 import { Subject } from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 
@@ -27,7 +26,7 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
   @Output() treeLabelClicked: Subject<TreeTableNode<T>> = new Subject();
   private searchableTree: SearchableNode<T>[];
   private _treeTable: TreeTableNode<T>[];
-  displayedColumns: string[];
+  displayedColumns: TreeTableCustomHeader[];
   extendedDisplayedColumns: string[];
   dataSource: MatTableDataSource<TreeTableNode<T>>;
   expandedNodes: Set<string> = new Set();
@@ -53,12 +52,18 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
         Properties ${customOrderValidator.xor.map(x => `'${x}'`).join(', ')} incorrect or missing in customColumnOrder`
       );
     }
+    const toCustomHeader = (columns: string[]): TreeTableCustomHeader[] => {
+      return columns.map(val => {
+        return {label: val.toString(), keyValue: val.toString()};
+      });
+    };
     this.displayedColumns = this.customHeader
-      ? this.customHeader.map(c => c.keyValue)
+      ? this.customHeader
       : this.options.customColumnOrder
-      ? this.options.customColumnOrder
-      : this.extractNodeProps(this.tree[0]);
-    this.extendedDisplayedColumns = this.actions ? [...this.displayedColumns, 'actions'] : this.displayedColumns;
+      ? toCustomHeader(this.options.customColumnOrder)
+      : toCustomHeader(this.extractNodeProps(this.tree[0]));
+    const plainColumns = this.displayedColumns.map(col => col.keyValue);
+    this.extendedDisplayedColumns = this.actions ? [...plainColumns, 'actions'] : plainColumns;
     this.createDataSource(this.tree);
   }
 
@@ -75,22 +80,6 @@ export class TreetableComponent<T> implements OnInit, OnChanges {
     this._treeTable = flatMap(treeTableTree, this.treeService.flatten);
     this.showExpandedChildren();
     this.dataSource = this.generateDataSource();
-  }
-
-  extractColumnLabel(prop: string): string {
-    return this.customHeader ? this.customHeader.find(c => c.keyValue === prop).label : '';
-  }
-
-  isFloatColumn(prop: string): boolean {
-    if (!this.customHeader) {
-      return false;
-    }
-    const column = this.customHeader.find(c => c.keyValue === prop);
-    if ('float' in column) {
-      return column.float;
-    } else {
-      return false;
-    }
   }
 
   extractNodeProps(tree: Node<T> & { value: { [k: string]: any } }): string[] {

@@ -1,25 +1,37 @@
 <table mat-table [dataSource]="dataSource" [ngClass]="formatElevation()">
 
   <div *ngFor="let column of displayedColumns; first as isFirst;">
-    <ng-container matColumnDef="{{column}}">
+    <ng-container matColumnDef="{{column.keyValue}}">
       <th mat-header-cell *matHeaderCellDef [ngClass]="{'vertical-separator': options.verticalSeparator}">
-        {{customHeader ? extractColumnLabel(column) : options.capitalisedHeader ? (column | titlecase) : column}}
+        {{customHeader ? column.label : options.capitalisedHeader ? (column.label | titlecase) : column}}
       </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="{'vertical-separator': options.verticalSeparator}">
-        <div *ngIf="isFirst">
-          <div class="value-cell">
-            <div [innerHTML]="formatIndentation(element)"></div>
-            <mat-icon [ngStyle]="{'visibility': element.children.length ? 'visible' : 'hidden'}" (click)="onNodeClick(element)">
-              {{element.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}
-            </mat-icon>
-            <div (click)="onTreeLabelClick(element)" class="tree-label">{{element.value[column]}}</div>
+      <!--TEMPLATE CELL-->
+      <ng-container *ngIf="column?.cellTemplate; else simpleCell">
+        <td mat-cell *matCellDef="let element" [ngClass]="{'vertical-separator': options.verticalSeparator}">
+          <ng-template [ngTemplateOutletContext]="{
+          element: element,
+          column: column
+        }" [ngTemplateOutlet]="column.cellTemplate">
+          </ng-template>
+        </td>
+      </ng-container>
+      <!--NORMAL CELL-->
+      <ng-template #simpleCell>
+        <td mat-cell *matCellDef="let element" [ngClass]="{'vertical-separator': options.verticalSeparator}">
+          <div *ngIf="isFirst">
+            <div class="value-cell">
+              <div [innerHTML]="formatIndentation(element)"></div>
+              <mat-icon [ngStyle]="{'visibility': element.children.length ? 'visible' : 'hidden'}" (click)="onNodeClick(element)">
+                {{element.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}
+              </mat-icon>
+              <div (click)="onTreeLabelClick(element)" class="tree-label">{{element.value[column.keyValue]}}</div>
+            </div>
           </div>
-        </div>
-        <div *ngIf="!isFirst">
-          <ng-container *ngIf="!isFloatColumn(column)">{{element.value[column]}}</ng-container>
-          <ng-container *ngIf="isFloatColumn(column)">{{element.value[column] | number: '1.1-1'}}</ng-container>
-        </div>
-      </td>
+          <div *ngIf="!isFirst">
+            <ng-container>{{element.value[column.keyValue]}}</ng-container>
+          </div>
+        </td>
+      </ng-template>
     </ng-container>
   </div>
 
