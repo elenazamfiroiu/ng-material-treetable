@@ -1,5 +1,5 @@
 {
-  "name": "@ezam/ng-material-treetable",
+  "name": "@vaseap/ng-material-treetable",
   "description": "A customisable Angular Material TreeTable component",
   "version": "0.6.0",
   "scripts": {
