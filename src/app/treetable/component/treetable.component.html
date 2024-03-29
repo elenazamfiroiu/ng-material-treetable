@@ -42,8 +42,9 @@
         <button *ngIf="checkVisibilityForAction(action, element)"
           (click)="onActionClicked({actionName: action.actionName, node: element})"
           mat-icon-button
-          [color]="action.color">
-          <mat-icon [title]="action.title">{{action.iconName}}</mat-icon>
+          [color]="action.color"
+          [title]="action.title">
+          <mat-icon>{{action.iconName}}</mat-icon>
         </button>
       </ng-container>
     </td>
