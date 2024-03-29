@@ -1,7 +1,7 @@
 {
   "name": "@ezam/ng-material-treetable",
   "description": "A customisable Angular Material TreeTable component",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
